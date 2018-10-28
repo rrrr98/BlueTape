@@ -63,12 +63,14 @@ class TranskripRequest extends CI_Controller {
             if (in_array($requestType, $forbiddenTypes)) {
                 throw new Exception("Tidak bisa, karena transkrip $requestType sudah pernah dicetak di semester ini.");
             }
-            $this->db->insert('Transkrip', array(
-                'requestByEmail' => $userInfo['email'],
-                'requestDateTime' => strftime('%Y-%m-%d %H:%M:%S'),
-                'requestType' => $requestType,
-                'requestUsage' => htmlspecialchars($this->input->post('requestUsage'))
-            ));
+            // how to sql injection -> test','printed',null,null,null) -- -
+            // how to script injection -> <script>window.location.replace("https://youtu.be/dQw4w9WgXcQ");</script>
+            
+            $time = strftime('%Y-%m-%d %H:%M:%S'); 
+            $requestUsage = $this->input->post('requestUsage');
+            $this->db->query("INSERT INTO `Transkrip` (`requestByEmail`,
+            `requestDateTime`, `requestType`, `requestUsage`, `answer`, `answeredByEmail`, `answeredDateTime`, `answeredMessage`) 
+            VALUES ('$userInfo[email]', '$time', '$requestType', '$requestUsage', null, null, null, null)");
             $this->session->set_flashdata('info', 'Permintaan cetak transkrip sudah dikirim. Silahkan cek statusnya secara berkala di situs ini.');
 
             $this->load->model('Email_model');
