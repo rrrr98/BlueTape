@@ -65,7 +65,7 @@ class TranskripRequest extends CI_Controller {
             }
             // how to sql injection -> test','printed',null,null,null) -- -
             // how to script injection -> <script>window.location.replace("https://youtu.be/dQw4w9WgXcQ");</script>
-            
+            // how to csrf attack -> open otherPage.html then click that link
             $time = strftime('%Y-%m-%d %H:%M:%S'); 
             $requestUsage = $this->input->post('requestUsage');
             $this->db->query("INSERT INTO `Transkrip` (`requestByEmail`,
