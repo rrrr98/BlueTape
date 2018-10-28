@@ -63,6 +63,7 @@ class TranskripRequest extends CI_Controller {
             if (in_array($requestType, $forbiddenTypes)) {
                 throw new Exception("Tidak bisa, karena transkrip $requestType sudah pernah dicetak di semester ini.");
             }
+            // --disable-xss-auditor
             // how to sql injection -> test','printed',null,null,null) -- -
             // how to script injection -> <script>window.location.replace("https://youtu.be/dQw4w9WgXcQ");</script>
             // how to csrf attack -> open otherPage.html then click that link
